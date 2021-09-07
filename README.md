@@ -1,4 +1,4 @@
-# SwarmMissions
+# Swarm Mission Language (SML)
 
 
 We present the implementation of the Swarm Mission Language grammar. To specify a mission, you need to download the Eclipse project. 
