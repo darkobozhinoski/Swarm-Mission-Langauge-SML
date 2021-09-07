@@ -1,0 +1,125 @@
+grammar be.uantwerpen.ansymo.missionspecification.MissionSpecification with org.eclipse.xtext.common.Terminals
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+generate missionSpecification "http://www.uantwerpen.be/ansymo/missionspecification/MissionSpecification"
+
+MissionSpecification:
+	properties+=Property+;
+	
+Property:
+	scope=Scope ',' pattern=Pattern '.'?;
+
+Scope:
+	{GlobalScope} 'Globally' | 
+	{BeforeScope} 'Before' r=Proposition | 
+	{AfterScope} 'After' q=Proposition | 
+	{BetweenScope} 'Between' q=Proposition ',' 'and' r=Proposition | 
+	{AfterUntilScope} 'After' q=Proposition ',' 'until' r=Proposition;
+	
+Pattern:
+	Occurence | Order;
+
+Occurence:
+	Universality | Absence | Existence | BoundedExistence;
+
+Universality:
+	'it' 'is' 'always' 'the' 'case' 'that' p=Proposition 'holds'?;
+	// for context assist for consecutive keywords, see https://blogs.itemis.com/en/xtext-hint-content-assist-for-multiple-consecutive-keywords
+	
+Absence:
+	'it' 'is' 'never' 'the' 'case' 'that' p=Proposition 'holds'?; // . must be here and not in Property rule for some reason
+	
+Existence:
+	p=Proposition 'holds'? 'eventually';
+	
+BoundedExistence:
+	p=Proposition 'holds'? 'at' 'most' n=INT 'times';
+	
+Order:
+	Precedence | Response;
+
+Precedence:
+	'if' p=Proposition 'holds'? ',' 'then' 'it' 'must' 'have' 'been' 'the' 'case' 'that' s=Proposition ('has' 'occurred')? 'beforehand';
+
+Response:
+	'if' p=Proposition ('has' 'occurred')? ',' 'then' 'in' 'response' s=Proposition ('eventually' 'holds')?;
+	
+Proposition:
+	{MockProposition} 'todo' |
+	props+=AtomicProposition ('and' 'also' props+=AtomicProposition)*;
+	//inst=Instance 'with' cond+=BooleanExpression ('and' cond+=BooleanExpression)* |
+	
+AtomicProposition:
+	inst=Instance ('with' cond+=BooleanExpression ('and' cond+=BooleanExpression)*)? (assoc=Association inst2=Instance ('with' cond2+=BooleanExpression ('and' cond2+=BooleanExpression)*)?)?;
+
+BooleanExpression:
+	BinaryExpression |
+	UnaryExpression |
+	{Condition} attr=Attribute;
+
+BinaryExpression:
+	{EqualsCondition} attr=Attribute 'as' val=Literal |
+	{LessThanCondition} attr=Attribute 'less' 'than' val=Literal |
+	{GreaterThanCondition} attr=Attribute 'greater' 'than' val=Literal;
+
+UnaryExpression:
+	{NotCondition} 'not' attr=Attribute;
+
+Instance:
+	InstanceRef | InstanceDecl;
+
+InstanceDecl:
+	('a' | 'an') type=Type (name=ID)?;
+
+InstanceRef:
+	ref=[InstanceDecl];
+
+Association:
+	 {TasksAssociation} 'that' 'is' 'a' 'task' 'of' | 
+	 {TeamAssociation} 'that' 'is' 'a' 'team' 'of' | 
+	 {RobotsAssociation} 'that' 'is' 'in' | 
+	 {CurrentTaskAssociation} ('currently')? 'doing' | 
+	 {CoveredTasksAssociation} 'that' 'has' 'scheduled' | 
+	 {TodoTasksAssociation} 'that' 'has' 'planned' 'in' 'the' 'future' | 
+	 {FinishedTasksAssociation} 'that' 'has' 'finished' | 
+	 {PerformingActionAssociation} ('currently')? 'performing' | 
+	 {InAssociation} ('currently')? 'in' | 
+	 {CurrentPositionAssociation} ('currently')? 'on' | 
+	 {HomeAssociation} 'with' 'as' 'home' | 
+	 {TaskAreaAssociation} 'with' 'task' 'area' | 
+	 {CoveredPointsAssociation} 'which' 'visits' | 
+	 {TodoPointsAssociation} 'which' 'will' 'visit' 'in' 'the' 'future' | 
+	 {FinishedPointsAssociation} 'which' 'has' 'visited' | 
+	 {PointsAssociation} 'with' 'points' | 
+	 {InitialPositionAssociation} 'with' 'initial' 'position' | 
+	 {ReferenceAssociation} 'which' 'references';
+
+Type:
+	name=ID;
+	
+Attribute:
+	name=ID;
+
+Literal returns ArithmeticExpression:
+	IntLiteral | RealLiteral | StringLiteral | BoolLiteral;
+
+IntLiteral:
+	value=SignedInt;
+	
+RealLiteral:
+	value=SignedReal;
+	
+StringLiteral:
+	value=STRING;
+	
+BoolLiteral:
+	value=('true'|'false');
+
+SignedInt returns ecore::EInt:
+	'-'? INT;
+
+SignedReal returns ecore::EBigDecimal:
+	'-'? REAL;
+	
+terminal REAL returns ecore::EBigDecimal: INT? '.' INT;
+

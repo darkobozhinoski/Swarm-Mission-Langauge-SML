@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="missionSpecification" nsURI="http://www.uantwerpen.be/ansymo/missionspecification/MissionSpecification"
+    nsPrefix="missionSpecification">
+  <eClassifiers xsi:type="ecore:EClass" name="MissionSpecification">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
+        eType="#//Property" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Property">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scope" eType="#//Scope"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pattern" eType="#//Pattern"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Scope"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Pattern">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="p" eType="#//Proposition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Occurence" eSuperTypes="#//Pattern"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Universality" eSuperTypes="#//Occurence"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Absence" eSuperTypes="#//Occurence"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Existence" eSuperTypes="#//Occurence"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BoundedExistence" eSuperTypes="#//Occurence">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="n" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Order" eSuperTypes="#//Pattern">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="s" eType="#//Proposition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Precedence" eSuperTypes="#//Order"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Response" eSuperTypes="#//Order"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Proposition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="props" upperBound="-1"
+        eType="#//AtomicProposition" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtomicProposition">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inst" eType="#//Instance"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cond" upperBound="-1" eType="#//BooleanExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="assoc" eType="#//Association"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inst2" eType="#//Instance"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cond2" upperBound="-1"
+        eType="#//BooleanExpression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BooleanExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BinaryExpression" eSuperTypes="#//BooleanExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attr" eType="#//Attribute"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="val" eType="#//ArithmeticExpression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UnaryExpression" eSuperTypes="#//BooleanExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Instance"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InstanceDecl" eSuperTypes="#//Instance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Type" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InstanceRef" eSuperTypes="#//Instance">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//InstanceDecl"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Type">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArithmeticExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntLiteral" eSuperTypes="#//ArithmeticExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RealLiteral" eSuperTypes="#//ArithmeticExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StringLiteral" eSuperTypes="#//ArithmeticExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BoolLiteral" eSuperTypes="#//ArithmeticExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlobalScope" eSuperTypes="#//Scope"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BeforeScope" eSuperTypes="#//Scope">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="r" eType="#//Proposition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AfterScope" eSuperTypes="#//Scope">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="q" eType="#//Proposition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BetweenScope" eSuperTypes="#//Scope">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="q" eType="#//Proposition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="r" eType="#//Proposition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AfterUntilScope" eSuperTypes="#//Scope">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="q" eType="#//Proposition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="r" eType="#//Proposition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MockProposition" eSuperTypes="#//Proposition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="#//BooleanExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attr" eType="#//Attribute"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EqualsCondition" eSuperTypes="#//BinaryExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LessThanCondition" eSuperTypes="#//BinaryExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GreaterThanCondition" eSuperTypes="#//BinaryExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NotCondition" eSuperTypes="#//UnaryExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attr" eType="#//Attribute"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TasksAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TeamAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RobotsAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CurrentTaskAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CoveredTasksAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TodoTasksAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FinishedTasksAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PerformingActionAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CurrentPositionAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="HomeAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskAreaAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CoveredPointsAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TodoPointsAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FinishedPointsAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PointsAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InitialPositionAssociation" eSuperTypes="#//Association"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferenceAssociation" eSuperTypes="#//Association"/>
+</ecore:EPackage>
